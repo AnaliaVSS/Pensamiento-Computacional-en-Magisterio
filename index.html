@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proyecto Final — Pensamiento Computacional — Magisterio</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #faf5ff; color: #2d1b4e; line-height: 1.7; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #6b21a8 0%, #9333ea 40%, #ec4899 80%, #10b981 100%);
+    padding: 56px 24px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-tag { display: inline-block; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 6px 16px; border-radius: 30px; margin-bottom: 20px; position: relative; }
+  .hero h1 { color: #fff; font-size: clamp(26px, 5vw, 42px); font-weight: 800; line-height: 1.2; letter-spacing: -0.5px; position: relative; text-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+  .hero h1 span { color: #d9f99d; }
+  .hero p { color: rgba(255,255,255,0.85); font-size: 15px; margin-top: 12px; position: relative; }
+  .hero-pills { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px; position: relative; }
+  .pill { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 12px; padding: 6px 14px; border-radius: 30px; }
+  .pill strong { color: #d9f99d; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 36px 16px 60px; }
+
+  .card { background: #fff; border-radius: 16px; box-shadow: 0 4px 20px rgba(107,33,168,0.08); border: 1px solid #e9d5ff; margin-bottom: 24px; overflow: hidden; }
+  .card-header { padding: 16px 24px; display: flex; align-items: center; gap: 12px; }
+  .card-header h2 { font-size: 17px; font-weight: 700; color: #fff; flex: 1; }
+  .card-body { padding: 24px; }
+
+  /* INFO GRID */
+  .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+  @media (max-width: 600px) { .info-grid { grid-template-columns: 1fr; } }
+  .info-item { background: #fff; border-radius: 14px; padding: 18px; border: 1px solid #e9d5ff; text-align: center; box-shadow: 0 2px 8px rgba(107,33,168,0.06); }
+  .info-item .ico { font-size: 28px; margin-bottom: 8px; }
+  .info-item .lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #9333ea; margin-bottom: 4px; }
+  .info-item .val { font-size: 14px; font-weight: 700; color: #2d1b4e; }
+
+  /* INTRO BOX */
+  .intro-box { border-radius: 12px; padding: 16px 20px; margin: 16px 0; font-size: 14px; font-style: italic; line-height: 1.7; border-left: 5px solid; }
+  .ib-lila { background: #f3e8ff; border-color: #9333ea; color: #6b21a8; }
+  .ib-rosa { background: #fce7f3; border-color: #ec4899; color: #9d174d; }
+  .ib-menta { background: #d1fae5; border-color: #10b981; color: #065f46; }
+  .ib-lavanda { background: #ede9fe; border-color: #7c3aed; color: #4c1d95; }
+
+  /* ÁREAS */
+  .areas-chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+  .area-chip { font-size: 12px; padding: 5px 14px; border-radius: 20px; font-weight: 600; border: 1px solid; }
+  .ac1 { background: #f3e8ff; color: #6b21a8; border-color: #c084fc; }
+  .ac2 { background: #fce7f3; color: #9d174d; border-color: #f9a8d4; }
+  .ac3 { background: #d1fae5; color: #065f46; border-color: #6ee7b7; }
+  .ac4 { background: #ede9fe; color: #4c1d95; border-color: #a78bfa; }
+  .ac5 { background: #fef3c7; color: #92400e; border-color: #fcd34d; }
+  .ac6 { background: #e0f2fe; color: #075985; border-color: #7dd3fc; }
+  .ac7 { background: #fdf4ff; color: #701a75; border-color: #e879f9; }
+
+  /* PILARES */
+  .pilares-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 16px 0; }
+  @media (max-width: 600px) { .pilares-grid { grid-template-columns: 1fr; } }
+  .pilar { border-radius: 12px; padding: 18px; border: 2px solid; }
+  .pilar.p1 { background: #fdf4ff; border-color: #e879f9; }
+  .pilar.p2 { background: #fce7f3; border-color: #f9a8d4; }
+  .pilar.p3 { background: #d1fae5; border-color: #6ee7b7; }
+  .pilar.p4 { background: #ede9fe; border-color: #a78bfa; }
+  .pilar h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .pilar.p1 h3 { color: #701a75; }
+  .pilar.p2 h3 { color: #9d174d; }
+  .pilar.p3 h3 { color: #065f46; }
+  .pilar.p4 h3 { color: #4c1d95; }
+  .pilar p { font-size: 13px; color: #4a5568; margin-bottom: 8px; }
+  .pilar .ej { font-size: 12px; font-style: italic; padding: 8px 10px; border-radius: 8px; line-height: 1.6; }
+  .pilar.p1 .ej { background: #fae8ff; color: #701a75; }
+  .pilar.p2 .ej { background: #fce7f3; color: #9d174d; }
+  .pilar.p3 .ej { background: #a7f3d0; color: #065f46; }
+  .pilar.p4 .ej { background: #ddd6fe; color: #4c1d95; }
+
+  /* REQUISITOS */
+  .requisito { border-radius: 12px; margin: 12px 0; overflow: hidden; border: 1px solid #e9d5ff; }
+  .req-header { display: flex; align-items: center; gap: 12px; padding: 12px 18px; }
+  .req-num { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.25); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 900; color: #fff; flex-shrink: 0; }
+  .req-title { font-size: 15px; font-weight: 700; color: #fff; }
+  .req-body { padding: 14px 18px; font-size: 13px; color: #4a5568; line-height: 1.7; }
+  .r1 .req-header { background: linear-gradient(90deg, #7c3aed, #9333ea); } .r1 .req-body { background: #f5f3ff; }
+  .r2 .req-header { background: linear-gradient(90deg, #9333ea, #a855f7); } .r2 .req-body { background: #fdf4ff; }
+  .r3 .req-header { background: linear-gradient(90deg, #ec4899, #f472b6); } .r3 .req-body { background: #fdf2f8; }
+  .r4 .req-header { background: linear-gradient(90deg, #10b981, #34d399); } .r4 .req-body { background: #f0fdf4; }
+  .r5 .req-header { background: linear-gradient(90deg, #6b21a8, #7c3aed); } .r5 .req-body { background: #f5f3ff; }
+  .r6 .req-header { background: linear-gradient(90deg, #be185d, #ec4899); } .r6 .req-body { background: #fdf2f8; }
+
+  /* AUTORES */
+  .autores-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 16px 0; }
+  @media (max-width: 600px) { .autores-grid { grid-template-columns: 1fr; } }
+  .autor { border-radius: 12px; padding: 16px 18px; border: 2px solid; }
+  .autor.a1 { background: #fdf4ff; border-color: #e879f9; }
+  .autor.a2 { background: #fce7f3; border-color: #f9a8d4; }
+  .autor.a3 { background: #d1fae5; border-color: #6ee7b7; }
+  .autor.a4 { background: #ede9fe; border-color: #a78bfa; }
+  .autor h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .autor.a1 h3 { color: #701a75; }
+  .autor.a2 h3 { color: #9d174d; }
+  .autor.a3 h3 { color: #065f46; }
+  .autor.a4 h3 { color: #4c1d95; }
+  .autor .ref { font-size: 12px; font-style: italic; color: #718096; margin-bottom: 8px; }
+  .autor .concepto { font-size: 12px; color: #4a5568; line-height: 1.6; }
+
+  /* EJEMPLO */
+  .ejemplo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 16px 0; }
+  @media (max-width: 600px) { .ejemplo-grid { grid-template-columns: 1fr; } }
+  .ejemplo-item { border-radius: 12px; overflow: hidden; border: 2px solid; }
+  .ejemplo-header { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; }
+  .ejemplo-ico { font-size: 22px; flex-shrink: 0; }
+  .ejemplo-pilar { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+  .ejemplo-tema { font-size: 12px; font-style: italic; opacity: 0.85; }
+  .ejemplo-body { padding: 0 16px 16px; font-size: 12px; color: #4a5568; line-height: 1.7; }
+  .ejemplo-body p { margin-bottom: 8px; }
+  .ejemplo-body ul, .ejemplo-body ol { padding-left: 16px; margin-bottom: 8px; }
+  .ejemplo-body li { margin-bottom: 4px; }
+  .e1 { border-color: #e879f9; } .e1 .ejemplo-header { background: #fdf4ff; } .e1 .ejemplo-pilar { color: #701a75; } .e1 .ejemplo-tema { color: #9333ea; } .e1 .ejemplo-body { background: #fefaff; }
+  .e2 { border-color: #f9a8d4; } .e2 .ejemplo-header { background: #fce7f3; } .e2 .ejemplo-pilar { color: #9d174d; } .e2 .ejemplo-tema { color: #ec4899; } .e2 .ejemplo-body { background: #fff8fb; }
+  .e3 { border-color: #6ee7b7; } .e3 .ejemplo-header { background: #d1fae5; } .e3 .ejemplo-pilar { color: #065f46; } .e3 .ejemplo-tema { color: #10b981; } .e3 .ejemplo-body { background: #f0fdf9; }
+  .e4 { border-color: #a78bfa; } .e4 .ejemplo-header { background: #ede9fe; } .e4 .ejemplo-pilar { color: #4c1d95; } .e4 .ejemplo-tema { color: #7c3aed; } .e4 .ejemplo-body { background: #faf8ff; }
+
+  /* VIDEO */
+  .video-reqs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 16px 0; }
+  @media (max-width: 600px) { .video-reqs { grid-template-columns: 1fr; } }
+  .video-req { background: #f5f3ff; border-radius: 10px; padding: 12px 14px; border-left: 4px solid #9333ea; font-size: 13px; color: #4a5568; }
+
+  /* CRONOGRAMA */
+  .crono { border-radius: 12px; overflow: hidden; margin: 16px 0; border: 1px solid #e9d5ff; }
+  .crono-item { display: flex; border-bottom: 1px solid #f3e8ff; }
+  .crono-item:last-child { border-bottom: none; }
+  .crono-sem { font-size: 13px; font-weight: 700; padding: 14px 16px; min-width: 90px; display: flex; align-items: center; justify-content: center; text-align: center; color: #fff; }
+  .crono-item:nth-child(1) .crono-sem { background: #9333ea; }
+  .crono-item:nth-child(2) .crono-sem { background: #ec4899; }
+  .crono-item:nth-child(3) .crono-sem { background: #10b981; }
+  .crono-item:nth-child(4) .crono-sem { background: #7c3aed; }
+  .crono-item:nth-child(5) .crono-sem { background: #be185d; }
+  .crono-item:nth-child(6) .crono-sem { background: #059669; }
+  .crono-content { flex: 1; padding: 14px 16px; background: #fff; }
+  .crono-item:nth-child(even) .crono-content { background: #fdf8ff; }
+  .crono-foco { font-size: 13px; color: #2d3748; font-weight: 500; margin-bottom: 4px; }
+  .crono-entrega { font-size: 12px; color: #718096; font-style: italic; }
+
+  /* RÚBRICA */
+  .rubrica-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 16px 0; }
+  .rubrica-table th { padding: 10px 12px; text-align: left; font-size: 12px; }
+  .rubrica-table td { padding: 10px 12px; border-bottom: 1px solid #f3e8ff; vertical-align: top; }
+  .th-criterio { background: #6b21a8; color: #fff; width: 22%; }
+  .th-logrado { background: #065f46; color: #fff; width: 26%; }
+  .th-endes { background: #9d174d; color: #fff; width: 26%; }
+  .th-nolog { background: #4c1d95; color: #fff; width: 20%; }
+  .th-pts { background: #6b21a8; color: #fff; width: 6%; text-align: center; }
+  .td-criterio { background: #fdf4ff; font-weight: 700; color: #6b21a8; }
+  .td-logrado { background: #d1fae5; color: #065f46; }
+  .td-endes { background: #fce7f3; color: #9d174d; }
+  .td-nolog { background: #ede9fe; color: #4c1d95; }
+  .td-pts { text-align: center; font-weight: 700; color: #6b21a8; }
+  .tr-total td { background: #6b21a8; color: #fff; font-weight: 700; font-size: 13px; }
+  .tr-escala td { background: #fdf4ff; color: #6b21a8; font-style: italic; }
+  @media (max-width: 600px) { .th-logrado, .th-endes, .td-logrado, .td-endes { display: none; } }
+
+  .total-box { background: linear-gradient(135deg, #6b21a8, #9333ea, #ec4899); color: #fff; border-radius: 12px; padding: 20px; text-align: center; margin: 16px 0; }
+  .total-box .num { font-size: 42px; font-weight: 900; color: #d9f99d; }
+  .total-box .label { font-size: 13px; color: rgba(255,255,255,0.8); margin-top: 4px; }
+  .escala { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 12px; }
+  .escala-item { background: rgba(255,255,255,0.15); border-radius: 20px; padding: 4px 12px; font-size: 11px; color: #fff; }
+
+  .conversion-box { background: linear-gradient(135deg, #4c1d95, #6b21a8); border-radius: 12px; padding: 18px 20px; margin-top: 16px; }
+  .conversion-box .ctitle { color: #d9f99d; font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+  .conversion-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .conversion-pills span { font-size: 12px; padding: 4px 12px; border-radius: 20px; color: #fff; }
+  .conversion-box .formula { color: #c4b5fd; font-size: 12px; font-style: italic; }
+
+  footer { text-align: center; font-size: 11px; color: #9333ea; padding: 24px; border-top: 2px solid #e9d5ff; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">CFE · Magisterio · 2026</div>
+  <h1>Proyecto Final Integrador<br><span>El PC en mi aula de Primaria</span></h1>
+  <p>Magisterio · Trayecto Lenguajes Diversos · Pensamiento Computacional</p>
+  <div class="hero-pills">
+    <span class="pill">📅 <strong>Últimas 6 semanas</strong></span>
+    <span class="pill">👤 <strong>Individual</strong></span>
+    <span class="pill">🎓 <strong>Primaria · 6 a 11 años</strong></span>
+    <span class="pill">📄 <strong>Informe PDF + Video + Oral</strong></span>
+    <span class="pill">⭐ <strong>20 puntos</strong></span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- INFO -->
+  <div class="info-grid">
+    <div class="info-item"><div class="ico">📅</div><div class="lbl">Período</div><div class="val">Últimas 6 semanas</div></div>
+    <div class="info-item"><div class="ico">👤</div><div class="lbl">Modalidad</div><div class="val">Individual</div></div>
+    <div class="info-item"><div class="ico">📋</div><div class="lbl">Entrega</div><div class="val">PDF + Video + Oral</div></div>
+  </div>
+
+  <!-- QUÉ ES -->
+  <div class="card">
+    <div class="card-header" style="background: linear-gradient(90deg, #6b21a8, #9333ea);">
+      <h2>¿En qué consiste el proyecto?</h2>
+    </div>
+    <div class="card-body">
+      <p style="font-size:14px; color:#4a5568; margin-bottom:14px;">El proyecto final integrador es una oportunidad para demostrar que el Pensamiento Computacional no es un contenido exclusivo de la tecnología — es una forma de pensar que ya está presente en la enseñanza de cualquier área del currículo de Primaria, aunque no siempre lo nombremos así.</p>
+      <p style="font-size:14px; color:#4a5568; margin-bottom:14px;">Como futuros maestros y maestras, el desafío es hacer visible esa forma de pensar en el trabajo cotidiano del aula, nombrarlo con los conceptos del PC y comunicarlo de forma clara y fundamentada.</p>
+      <div class="intro-box ib-lila">El proyecto tiene dos partes: un informe escrito en PDF con la planificación de clase y la justificación teórica, y un video donde explican en primera persona dónde y por qué está el PC en el área curricular que eligieron.</div>
+
+      <h3 style="font-size:15px; font-weight:700; color:#6b21a8; margin:20px 0 10px;">¿Qué área curricular elegir?</h3>
+      <p style="font-size:14px; color:#4a5568; margin-bottom:10px;">Podés elegir libremente cualquier área del currículo de Primaria:</p>
+      <div class="areas-chips">
+        <span class="area-chip ac1">Matemática</span>
+        <span class="area-chip ac2">Lengua</span>
+        <span class="area-chip ac3">Ciencias Naturales</span>
+        <span class="area-chip ac4">Ciencias Sociales</span>
+        <span class="area-chip ac5">Ed. Artística</span>
+        <span class="area-chip ac6">Ed. Física</span>
+        <span class="area-chip ac7">Inglés</span>
+      </div>
+      <div class="intro-box ib-rosa" style="margin-top:16px;">La planificación debe estar orientada a una franja etaria específica de Primaria (1°, 2°, 3°, 4°, 5° o 6° año) y ser aplicable en un aula real de Uruguay.</div>
+    </div>
+  </div>
+
+  <!-- PILARES -->
+  <div class="card">
+    <div class="card-header" style="background: linear-gradient(90deg, #9333ea, #ec4899);">
+      <h2>Los cuatro pilares que deben aparecer</h2>
+    </div>
+    <div class="card-body">
+      <p style="font-size:14px; color:#4a5568; margin-bottom:16px;">La planificación debe evidenciar los cuatro pilares del PC en actividades concretas y apropiadas para niños y niñas de Primaria.</p>
+      <div class="pilares-grid">
+        <div class="pilar p1">
+          <h3>🔍 Descomposición</h3>
+          <p>Dividir un problema o contenido en partes más pequeñas y manejables.</p>
+          <div class="ej">Ej. en Primaria: dividir la resolución de un problema matemático en pasos, o analizar un texto separando personajes, conflicto y desenlace.</div>
+        </div>
+        <div class="pilar p2">
+          <h3>🔁 Reconocimiento de patrones</h3>
+          <p>Identificar regularidades, similitudes o estructuras que se repiten.</p>
+          <div class="ej">Ej. en Primaria: reconocer patrones en series numéricas, en rimas de un poema o en el ciclo de vida de los seres vivos.</div>
+        </div>
+        <div class="pilar p3">
+          <h3>💡 Abstracción</h3>
+          <p>Enfocarse en lo esencial descartando lo irrelevante para el problema.</p>
+          <div class="ej">Ej. en Primaria: identificar la idea principal de un texto, o representar con un dibujo simple el ciclo del agua sin incluir detalles innecesarios.</div>
+        </div>
+        <div class="pilar p4">
+          <h3>📋 Diseño de algoritmos</h3>
+          <p>Diseñar una secuencia clara de pasos para resolver un problema.</p>
+          <div class="ej">Ej. en Primaria: describir paso a paso cómo resolver una resta con préstamo, o los pasos para plantar una semilla.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EJEMPLO MATEMÁTICA -->
+  <div class="card" style="background: #1e1b4b; border-color: #4c1d95;">
+    <div class="card-header" style="background: linear-gradient(90deg, #1e1b4b, #2e1065);">
+      <h2>🔢 El PC en acción — Ejemplo en Matemática (Primaria)</h2>
+    </div>
+    <div class="card-body" style="background: #1e1b4b;">
+      <p style="font-size:14px; color:#c4b5fd; margin-bottom:8px;">Si el PC está presente en Matemática, también está en <strong style="color:#d9f99d;">tu área curricular</strong>. Este ejemplo muestra cómo los cuatro pilares aparecen en una clase de 3° año de Primaria.</p>
+      <div style="background: rgba(255,255,255,0.08); border-left: 5px solid #a78bfa; border-radius: 8px; padding: 14px 18px; margin-bottom:20px; font-size:13px; color:#a78bfa; font-style:italic;">📌 Este ejemplo es orientador — no lo copies. Usalo para pensar cómo aparecen los mismos pilares en tu área y con tu franja etaria de Primaria.</div>
+      <div class="ejemplo-grid">
+        <div class="ejemplo-item e1">
+          <div class="ejemplo-header"><span class="ejemplo-ico">🔍</span><div><div class="ejemplo-pilar">Descomposición</div><div class="ejemplo-tema">Resolución de problemas — 3° año</div></div></div>
+          <div class="ejemplo-body">
+            <p>La maestra presenta un problema de varios pasos y propone dividirlo antes de resolverlo:</p>
+            <ul>
+              <li>¿Qué me pide el problema? (leer y subrayar)</li>
+              <li>¿Qué datos tengo? (identificar)</li>
+              <li>¿Qué operación necesito? (decidir)</li>
+              <li>¿Cómo verifico si el resultado tiene sentido?</li>
+            </ul>
+            <p>Los niños aprenden que un problema complejo se resuelve mejor cuando se divide en preguntas más pequeñas.</p>
+          </div>
+        </div>
+        <div class="ejemplo-item e2">
+          <div class="ejemplo-header"><span class="ejemplo-ico">🔁</span><div><div class="ejemplo-pilar">Reconocimiento de patrones</div><div class="ejemplo-tema">Series numéricas — 2° año</div></div></div>
+          <div class="ejemplo-body">
+            <p>La maestra presenta varias series y pregunta:</p>
+            <ul>
+              <li>2, 4, 6, 8... ¿qué sigue? ¿por qué?</li>
+              <li>5, 10, 15, 20... ¿qué sigue? ¿es igual que la anterior?</li>
+              <li>1, 3, 6, 10... ¿cuál es la regla?</li>
+            </ul>
+            <p>Los niños aprenden a identificar la regla que organiza una serie — y esa habilidad de encontrar patrones es el núcleo del pensamiento matemático.</p>
+          </div>
+        </div>
+        <div class="ejemplo-item e3">
+          <div class="ejemplo-header"><span class="ejemplo-ico">💡</span><div><div class="ejemplo-pilar">Abstracción</div><div class="ejemplo-tema">Del problema al modelo — 4° año</div></div></div>
+          <div class="ejemplo-body">
+            <p>La maestra presenta este problema: <em>"Juan tiene 3 bolsas con 8 manzanas cada una. ¿Cuántas manzanas tiene en total?"</em></p>
+            <p>Propone abstraer: olvidar que son manzanas y bolsas, y quedarse solo con la estructura matemática:</p>
+            <ul>
+              <li>3 grupos de 8 → 3 × 8</li>
+            </ul>
+            <p>Los niños aprenden que muchos problemas distintos tienen la misma estructura matemática escondida.</p>
+          </div>
+        </div>
+        <div class="ejemplo-item e4">
+          <div class="ejemplo-header"><span class="ejemplo-ico">📋</span><div><div class="ejemplo-pilar">Diseño de algoritmos</div><div class="ejemplo-tema">Resta con préstamo — 3° año</div></div></div>
+          <div class="ejemplo-body">
+            <p>Los niños escriben el procedimiento paso a paso para restar con préstamo:</p>
+            <ol>
+              <li>Escribir los números alineados por unidades</li>
+              <li>Empezar por las unidades</li>
+              <li>Si no puedo restar, pido prestado a las decenas</li>
+              <li>Resto las decenas (con el préstamo descontado)</li>
+              <li>Verifico sumando el resultado con el sustraendo</li>
+            </ol>
+            <p>Ese procedimiento es un algoritmo: una secuencia clara que siempre funciona y cualquier compañero puede seguir.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTORES -->
+  <div class="card">
+    <div class="card-header" style="background: linear-gradient(90deg, #6b21a8, #ec4899);">
+      <h2>Autores de referencia — elegir 2 de 4</h2>
+    </div>
+    <div class="card-body">
+      <p style="font-size:14px; color:#4a5568; margin-bottom:16px;">Para la fundamentación teórica deben elegir <strong>2 de los 4 autores</strong> del material de lectura del curso:</p>
+      <a href="https://drive.google.com/file/d/1b_hjKK9zTV_gmijfQpXgD26nihLtep9v/view?usp=sharing" target="_blank" style="display:block; text-decoration:none; margin-bottom:20px;">
+        <div style="background: linear-gradient(135deg, #6b21a8, #9333ea, #ec4899); border-radius: 14px; padding: 18px 24px; display:flex; align-items:center; gap:16px;">
+          <span style="font-size:32px;">📚</span>
+          <div>
+            <div style="color:#fff; font-size:16px; font-weight:700;">Dossier de autores del curso</div>
+            <div style="color:rgba(255,255,255,0.8); font-size:13px; margin-top:3px;">Wing · Papert · Brennan & Resnick · Furman — Hacer clic para acceder</div>
+          </div>
+          <span style="color:rgba(255,255,255,0.7); font-size:20px; margin-left:auto;">→</span>
+        </div>
+      </a>
+      <div class="autores-grid">
+        <div class="autor a1">
+          <h3>Wing, J. (2006)</h3>
+          <div class="ref">Computational Thinking. Communications of the ACM, 49(3), 33-35.</div>
+          <div class="concepto">💡 El PC como habilidad fundamental para cualquier persona. Los cuatro pilares como herramientas de resolución de problemas aplicables desde la infancia.</div>
+        </div>
+        <div class="autor a2">
+          <h3>Papert, S. (1980)</h3>
+          <div class="ref">Mindstorms: Children, Computers, and Powerful Ideas. Basic Books.</div>
+          <div class="concepto">💡 El construccionismo — los niños aprenden mejor cuando construyen algo concreto y compartible. Aprender haciendo como base del PC en Primaria.</div>
+        </div>
+        <div class="autor a3">
+          <h3>Brennan & Resnick (2012)</h3>
+          <div class="ref">New frameworks for studying and assessing CT. AERA Annual Meeting.</div>
+          <div class="concepto">💡 Framework de 3 dimensiones del PC — conceptos, prácticas y perspectivas. Muy aplicable al diseño de actividades con niños.</div>
+        </div>
+        <div class="autor a4">
+          <h3>Furman, M. (2021)</h3>
+          <div class="ref">Enseñar Distinto. Siglo XXI Editores.</div>
+          <div class="concepto">💡 Enseñar a pensar como tarea central de la escuela primaria. Preguntas productivas e indagación aplicables a todas las áreas.</div>
+        </div>
+      </div>
+      <div class="intro-box ib-lila">La cita de los autores no debe ser decorativa — debe articularse con la planificación. ¿Qué concepto específico de ese autor justifica una decisión didáctica que tomaron para su grupo de Primaria?</div>
+    </div>
+  </div>
+
+  <!-- PARTE 1 -->
+  <div class="card">
+    <div class="card-header" style="background: linear-gradient(90deg, #7c3aed, #9333ea);">
+      <h2>📄 Parte 1 — El informe escrito en PDF</h2>
+    </div>
+    <div class="card-body">
+      <p style="font-size:14px; color:#4a5568; margin-bottom:16px;">El informe contiene la planificación de clase y la justificación teórica. Se entrega en <strong>formato PDF obligatorio</strong>.</p>
+      <div class="requisito r1"><div class="req-header"><div class="req-num">①</div><div class="req-title">Datos de la planificación</div></div><div class="req-body">Área curricular · <strong>Franja etaria</strong> (año de Primaria y edad aproximada) · <strong>Tema específico</strong> de la clase · Duración · Modalidad.</div></div>
+      <div class="requisito r2"><div class="req-header"><div class="req-num">②</div><div class="req-title">Objetivo de la clase</div></div><div class="req-body">Un objetivo claro y medible redactado en términos de aprendizaje esperado para esa franja etaria. Debe ser alcanzable en el tiempo previsto.</div></div>
+      <div class="requisito r3"><div class="req-header"><div class="req-num">③</div><div class="req-title">Secuencia didáctica</div></div><div class="req-body">Descripción detallada de los momentos de la clase: inicio, desarrollo y cierre. Mínimo 3 actividades con tiempo estimado. Las actividades deben ser apropiadas para la edad de los niños.</div></div>
+      <div class="requisito r4"><div class="req-header"><div class="req-num">④</div><div class="req-title">Identificación de los pilares del PC</div></div><div class="req-body">Para cada actividad, indicar explícitamente qué pilar del PC está presente y cómo se manifiesta con los niños de esa franja etaria.</div></div>
+      <div class="requisito r5"><div class="req-header"><div class="req-num">⑤</div><div class="req-title">Fundamentación teórica con 2 autores</div></div><div class="req-body">Justificar la presencia del PC usando conceptos de 2 de los 4 referentes del dossier. Mínimo un párrafo argumentativo por autor conectando con las características del grupo etario elegido.</div></div>
+      <div class="requisito r6"><div class="req-header"><div class="req-num">⑥</div><div class="req-title">Evaluación de la clase</div></div><div class="req-body">¿Cómo se evaluará el aprendizaje de los niños? Criterios e instrumentos apropiados para Primaria (observación, rúbrica, lista de cotejo, producción, etc.).</div></div>
+      <div class="intro-box ib-menta" style="margin-top:16px;">📌 El informe se entrega en PDF. Puede generarse desde Word (Archivo → Guardar como → PDF) o desde Google Docs (Archivo → Descargar → PDF).</div>
+    </div>
+  </div>
+
+  <!-- PARTE 2 -->
+  <div class="card">
+    <div class="card-header" style="background: linear-gradient(90deg, #ec4899, #f472b6);">
+      <h2>🎥 Parte 2 — El video explicativo</h2>
+    </div>
+    <div class="card-body">
+      <p style="font-size:14px; color:#4a5568; margin-bottom:16px;">Deben aparecer en cámara explicando con sus propias palabras dónde y por qué está el PC en el área que eligieron para Primaria.</p>
+      <div class="video-reqs">
+        <div class="video-req">⏱ <strong>Duración:</strong> entre 5 y 8 minutos</div>
+        <div class="video-req">🎥 Deben aparecer <strong>en cámara</strong> hablando</div>
+        <div class="video-req">💡 Pueden apoyarse en pizarrón o diapositivas</div>
+        <div class="video-req">🔊 Buena <strong>iluminación</strong> y audio audible</div>
+        <div class="video-req">🔗 Se entrega como <strong>link</strong> (YouTube no listado, Drive)</div>
+        <div class="video-req">👶 Mencionar explícitamente la <strong>franja etaria</strong></div>
+      </div>
+      <h3 style="font-size:15px; font-weight:700; color:#6b21a8; margin:20px 0 10px;">¿Qué deben explicar?</h3>
+      <ul style="padding-left:20px; font-size:14px; color:#4a5568; line-height:2;">
+        <li>¿Por qué eligieron esa área curricular y ese tema para esa franja etaria?</li>
+        <li>¿Dónde aparece cada pilar del PC en su planificación?</li>
+        <li>¿Qué aportan los 2 autores elegidos para justificar el PC en esa clase de Primaria?</li>
+        <li>¿Cómo se adaptan los pilares a las características de los niños de esa edad?</li>
+        <li>¿Qué cambió en su mirada sobre esa área después de trabajar con el PC?</li>
+      </ul>
+      <div class="intro-box ib-rosa" style="margin-top:16px;">El video no es una lectura en voz alta del informe. Es una explicación genuina, en primera persona, de cómo el PC habita tu área curricular en Primaria. Se espera escuchar tu voz como futuro/a maestro/a.</div>
+    </div>
+  </div>
+
+  <!-- CRONOGRAMA -->
+  <div class="card">
+    <div class="card-header" style="background: linear-gradient(90deg, #10b981, #059669);">
+      <h2>📅 Cronograma de las 6 semanas</h2>
+    </div>
+    <div class="card-body" style="padding:0;">
+      <div class="crono">
+        <div class="crono-item"><div class="crono-sem">Semana 1</div><div class="crono-content"><div class="crono-foco">Presentación del proyecto · Repaso de los 4 pilares con ejemplos de Primaria · Elección del área curricular y franja etaria</div><div class="crono-entrega">→ Elección de área y franja etaria — entrada en el portafolio</div></div></div>
+        <div class="crono-item"><div class="crono-sem">Semana 2</div><div class="crono-content"><div class="crono-foco">Taller de diseño de la planificación · Primera versión borrador con pilares y actividades apropiadas para la edad</div><div class="crono-entrega">→ Borrador de la planificación</div></div></div>
+        <div class="crono-item"><div class="crono-sem">Semana 3</div><div class="crono-content"><div class="crono-foco">Los autores como herramienta de fundamentación · Cómo conectar teoría con la franja etaria · Revisión entre pares</div><div class="crono-entrega">→ Párrafos de fundamentación incorporados al informe</div></div></div>
+        <div class="crono-item"><div class="crono-sem">Semana 4</div><div class="crono-content"><div class="crono-foco">Revisión final del informe · Preparación del guión del video · Grabación · Conversión a PDF</div><div class="crono-entrega">→ Informe en PDF + link al video</div></div></div>
+        <div class="crono-item"><div class="crono-sem">Semana 5</div><div class="crono-content"><div class="crono-foco">Presentación de videos en clase · Debate y retroalimentación grupal</div><div class="crono-entrega">→ Presentación oral en clase</div></div></div>
+        <div class="crono-item"><div class="crono-sem">Semana 6</div><div class="crono-content"><div class="crono-foco">Cierre del semestre · Entrada final del portafolio · Reflexión colectiva</div><div class="crono-entrega">→ Portafolio completo · Entrada final</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RÚBRICA -->
+  <div class="card">
+    <div class="card-header" style="background: linear-gradient(90deg, #6b21a8, #9333ea, #ec4899);">
+      <h2>📊 Rúbrica de evaluación</h2>
+    </div>
+    <div class="card-body">
+      <div class="total-box">
+        <div class="num">20</div>
+        <div class="label">puntos en total</div>
+        <div class="escala">
+          <span class="escala-item">18-20 = Excelente</span>
+          <span class="escala-item">14-17 = Muy bueno</span>
+          <span class="escala-item">10-13 = Suficiente</span>
+          <span class="escala-item">0-9 = Insuficiente</span>
+        </div>
+      </div>
+      <div style="overflow-x:auto;">
+      <table class="rubrica-table">
+        <tr>
+          <th class="th-criterio">Criterio</th>
+          <th class="th-logrado">Logrado (4)</th>
+          <th class="th-endes">En desarrollo (2)</th>
+          <th class="th-nolog">No logrado (0)</th>
+          <th class="th-pts">Pts</th>
+        </tr>
+        <tr><td class="td-criterio">1. Los 4 pilares del PC</td><td class="td-logrado">Los 4 pilares están presentes, correctamente identificados y visibles en actividades concretas apropiadas para la franja etaria.</td><td class="td-endes">Al menos 2 pilares identificados pero la conexión con las actividades es parcial o no considera la edad de los niños.</td><td class="td-nolog">Los pilares no aparecen o están incorrectamente identificados.</td><td class="td-pts">/ 4</td></tr>
+        <tr><td class="td-criterio">2. Calidad de la planificación</td><td class="td-logrado">Coherente, aplicable a Primaria, con objetivo claro, datos completos (área, franja etaria, tema) y evaluación apropiada para la edad.</td><td class="td-endes">Tiene algunos elementos pero le falta coherencia o adecuación a la franja etaria.</td><td class="td-nolog">Incompleta o no es aplicable al nivel y edad indicados.</td><td class="td-pts">/ 4</td></tr>
+        <tr><td class="td-criterio">3. Fundamentación con 2 autores</td><td class="td-logrado">Usa conceptos de 2 autores del dossier de forma pertinente y articulada con la planificación y la franja etaria elegida.</td><td class="td-endes">Menciona 2 autores pero la articulación es superficial o no conecta con las características del grupo etario.</td><td class="td-nolog">No usa autores o los menciona sin conexión con la planificación.</td><td class="td-pts">/ 4</td></tr>
+        <tr><td class="td-criterio">4. Video — Explicación oral</td><td class="td-logrado">Aparece en cámara, explica con claridad los 4 pilares, la fundamentación y cómo se adaptan a la franja etaria. Buena calidad técnica.</td><td class="td-endes">Aparece en cámara pero la explicación es parcial o no menciona la franja etaria o no desarrolla todos los pilares.</td><td class="td-nolog">No aparece en cámara o no cumple los requisitos mínimos.</td><td class="td-pts">/ 4</td></tr>
+        <tr><td class="td-criterio">5. Reflexión docente</td><td class="td-logrado">Demuestra una mirada genuina sobre cómo el PC habita su área en Primaria. Se nota un cambio en su forma de ver la enseñanza en la infancia.</td><td class="td-endes">La reflexión existe pero es superficial o no conecta con la especificidad de la docencia en Primaria.</td><td class="td-nolog">No hay reflexión docente reconocible en el proyecto.</td><td class="td-pts">/ 4</td></tr>
+        <tr class="tr-total"><td colspan="4" style="text-align:right; padding-right:16px;">PUNTAJE TOTAL</td><td style="text-align:center;">/ 20</td></tr>
+        <tr class="tr-escala"><td colspan="5" style="padding:10px 12px;">Conversión: 18-20 = Excelente · 14-17 = Muy bueno · 10-13 = Suficiente · 0-9 = Insuficiente</td></tr>
+      </table>
+      </div>
+      <div class="conversion-box">
+        <div class="ctitle">📊 Conversión a escala 12</div>
+        <div class="conversion-pills">
+          <span style="background:#065f46;">18-20 pts = 12</span>
+          <span style="background:#10b981;">15-17 pts = 10-11</span>
+          <span style="background:#9333ea;">12-14 pts = 8-9</span>
+          <span style="background:#7c3aed;">9-11 pts = 6-7</span>
+          <span style="background:#ec4899;">6-8 pts = 4-5</span>
+          <span style="background:#6b7280;">0-5 pts = 1-3</span>
+        </div>
+        <div class="formula">Fórmula: nota sobre 12 = (puntaje obtenido × 12) ÷ 20</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>Pensamiento Computacional · CFE · Magisterio · Elaboración propia con asistencia de IA generativa · CC BY-NC-SA 4.0</footer>
+
+</body>
+</html>
